@@ -14,19 +14,19 @@ import (
 )
 
 // SliceStr is alias of Strings.
-func SliceStr(any interface{}) []string {
-	return Strings(any)
+func SliceStr(val interface{}) []string {
+	return Strings(val)
 }
 
-// Strings converts `any` to []string.
-func Strings(any interface{}) []string {
-	if any == nil {
+// Strings converts `val` to []string.
+func Strings(val interface{}) []string {
+	if val == nil {
 		return nil
 	}
 	var (
 		array []string = nil
 	)
-	switch value := any.(type) {
+	switch value := val.(type) {
 	case []int:
 		array = make([]string, len(value))
 		for k, v := range value {
@@ -127,18 +127,18 @@ func Strings(any interface{}) []string {
 	if array != nil {
 		return array
 	}
-	if v, ok := any.(iStrings); ok {
+	if v, ok := val.(iStrings); ok {
 		return v.Strings()
 	}
-	if v, ok := any.(iInterfaces); ok {
+	if v, ok := val.(iInterfaces); ok {
 		return Strings(v.Interfaces())
 	}
 	// JSON format string value converting.
-	if checkJsonAndUnmarshalUseNumber(any, &array) {
+	if checkJsonAndUnmarshalUseNumber(val, &array) {
 		return array
 	}
 	// Not a common type, it then uses reflection for conversion.
-	originValueAndKind := reflection.OriginValueAndKind(any)
+	originValueAndKind := reflection.OriginValueAndKind(val)
 	switch originValueAndKind.OriginKind {
 	case reflect.Slice, reflect.Array:
 		var (
@@ -154,6 +154,6 @@ func Strings(any interface{}) []string {
 		if originValueAndKind.OriginValue.IsZero() {
 			return []string{}
 		}
-		return []string{String(any)}
+		return []string{String(val)}
 	}
 }

@@ -14,34 +14,34 @@ import (
 )
 
 // SliceFloat is alias of Floats.
-func SliceFloat(any interface{}) []float64 {
-	return Floats(any)
+func SliceFloat(val interface{}) []float64 {
+	return Floats(val)
 }
 
 // SliceFloat32 is alias of Float32s.
-func SliceFloat32(any interface{}) []float32 {
-	return Float32s(any)
+func SliceFloat32(val interface{}) []float32 {
+	return Float32s(val)
 }
 
 // SliceFloat64 is alias of Float64s.
-func SliceFloat64(any interface{}) []float64 {
-	return Floats(any)
+func SliceFloat64(val interface{}) []float64 {
+	return Floats(val)
 }
 
-// Floats converts `any` to []float64.
-func Floats(any interface{}) []float64 {
-	return Float64s(any)
+// Floats converts `val` to []float64.
+func Floats(val interface{}) []float64 {
+	return Float64s(val)
 }
 
-// Float32s converts `any` to []float32.
-func Float32s(any interface{}) []float32 {
-	if any == nil {
+// Float32s converts `val` to []float32.
+func Float32s(val interface{}) []float32 {
+	if val == nil {
 		return nil
 	}
 	var (
 		array []float32 = nil
 	)
-	switch value := any.(type) {
+	switch value := val.(type) {
 	case string:
 		if value == "" {
 			return []float32{}
@@ -126,18 +126,18 @@ func Float32s(any interface{}) []float32 {
 	if array != nil {
 		return array
 	}
-	if v, ok := any.(iFloats); ok {
+	if v, ok := val.(iFloats); ok {
 		return Float32s(v.Floats())
 	}
-	if v, ok := any.(iInterfaces); ok {
+	if v, ok := val.(iInterfaces); ok {
 		return Float32s(v.Interfaces())
 	}
 	// JSON format string value converting.
-	if checkJsonAndUnmarshalUseNumber(any, &array) {
+	if checkJsonAndUnmarshalUseNumber(val, &array) {
 		return array
 	}
 	// Not a common type, it then uses reflection for conversion.
-	originValueAndKind := reflection.OriginValueAndKind(any)
+	originValueAndKind := reflection.OriginValueAndKind(val)
 	switch originValueAndKind.OriginKind {
 	case reflect.Slice, reflect.Array:
 		var (
@@ -153,19 +153,19 @@ func Float32s(any interface{}) []float32 {
 		if originValueAndKind.OriginValue.IsZero() {
 			return []float32{}
 		}
-		return []float32{Float32(any)}
+		return []float32{Float32(val)}
 	}
 }
 
-// Float64s converts `any` to []float64.
-func Float64s(any interface{}) []float64 {
-	if any == nil {
+// Float64s converts `val` to []float64.
+func Float64s(val interface{}) []float64 {
+	if val == nil {
 		return nil
 	}
 	var (
 		array []float64 = nil
 	)
-	switch value := any.(type) {
+	switch value := val.(type) {
 	case string:
 		if value == "" {
 			return []float64{}
@@ -250,18 +250,18 @@ func Float64s(any interface{}) []float64 {
 	if array != nil {
 		return array
 	}
-	if v, ok := any.(iFloats); ok {
+	if v, ok := val.(iFloats); ok {
 		return v.Floats()
 	}
-	if v, ok := any.(iInterfaces); ok {
+	if v, ok := val.(iInterfaces); ok {
 		return Floats(v.Interfaces())
 	}
 	// JSON format string value converting.
-	if checkJsonAndUnmarshalUseNumber(any, &array) {
+	if checkJsonAndUnmarshalUseNumber(val, &array) {
 		return array
 	}
 	// Not a common type, it then uses reflection for conversion.
-	originValueAndKind := reflection.OriginValueAndKind(any)
+	originValueAndKind := reflection.OriginValueAndKind(val)
 	switch originValueAndKind.OriginKind {
 	case reflect.Slice, reflect.Array:
 		var (
@@ -277,6 +277,6 @@ func Float64s(any interface{}) []float64 {
 		if originValueAndKind.OriginValue.IsZero() {
 			return []float64{}
 		}
-		return []float64{Float64(any)}
+		return []float64{Float64(val)}
 	}
 }

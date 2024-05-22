@@ -14,17 +14,17 @@ import (
 )
 
 // SliceAny is alias of Interfaces.
-func SliceAny(any interface{}) []interface{} {
-	return Interfaces(any)
+func SliceAny(val interface{}) []interface{} {
+	return Interfaces(val)
 }
 
-// Interfaces converts `any` to []interface{}.
-func Interfaces(any interface{}) []interface{} {
-	if any == nil {
+// Interfaces converts `val` to []interface{}.
+func Interfaces(val interface{}) []interface{} {
+	if val == nil {
 		return nil
 	}
 	var array []interface{}
-	switch value := any.(type) {
+	switch value := val.(type) {
 	case []interface{}:
 		array = value
 	case []string:
@@ -104,15 +104,15 @@ func Interfaces(any interface{}) []interface{} {
 	if array != nil {
 		return array
 	}
-	if v, ok := any.(iInterfaces); ok {
+	if v, ok := val.(iInterfaces); ok {
 		return v.Interfaces()
 	}
 	// JSON format string value converting.
-	if checkJsonAndUnmarshalUseNumber(any, &array) {
+	if checkJsonAndUnmarshalUseNumber(val, &array) {
 		return array
 	}
 	// Not a common type, it then uses reflection for conversion.
-	originValueAndKind := reflection.OriginValueAndKind(any)
+	originValueAndKind := reflection.OriginValueAndKind(val)
 	switch originValueAndKind.OriginKind {
 	case reflect.Slice, reflect.Array:
 		var (
@@ -125,6 +125,6 @@ func Interfaces(any interface{}) []interface{} {
 		return slice
 
 	default:
-		return []interface{}{any}
+		return []interface{}{val}
 	}
 }
