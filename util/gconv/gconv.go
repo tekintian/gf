@@ -4,7 +4,7 @@
 // If a copy of the MIT was not distributed with this file,
 // You can obtain one at https://github.com/gogf/gf.
 
-// Package gconv implements powerful and convenient converting functionality for any types of variables.
+// Package gconv implements powerful and convenient converting functionality for val types of variables.
 //
 // This package should keep much less dependencies with other packages.
 package gconv
@@ -42,20 +42,20 @@ var (
 	StructTagPriority = gtag.StructTagPriority
 )
 
-// Byte converts `any` to byte.
-func Byte(any interface{}) byte {
-	if v, ok := any.(byte); ok {
+// Byte converts `val` to byte.
+func Byte(val interface{}) byte {
+	if v, ok := val.(byte); ok {
 		return v
 	}
-	return Uint8(any)
+	return Uint8(val)
 }
 
-// Bytes converts `any` to []byte.
-func Bytes(any interface{}) []byte {
-	if any == nil {
+// Bytes converts `val` to []byte.
+func Bytes(val interface{}) []byte {
+	if val == nil {
 		return nil
 	}
-	switch value := any.(type) {
+	switch value := val.(type) {
 	case string:
 		return []byte(value)
 
@@ -66,10 +66,10 @@ func Bytes(any interface{}) []byte {
 		if f, ok := value.(iBytes); ok {
 			return f.Bytes()
 		}
-		originValueAndKind := reflection.OriginValueAndKind(any)
+		originValueAndKind := reflection.OriginValueAndKind(val)
 		switch originValueAndKind.OriginKind {
 		case reflect.Map:
-			bytes, err := json.Marshal(any)
+			bytes, err := json.Marshal(val)
 			if err != nil {
 				intlog.Errorf(context.TODO(), `%+v`, err)
 			}
@@ -92,33 +92,33 @@ func Bytes(any interface{}) []byte {
 				return bytes
 			}
 		}
-		return gbinary.Encode(any)
+		return gbinary.Encode(val)
 	}
 }
 
-// Rune converts `any` to rune.
-func Rune(any interface{}) rune {
-	if v, ok := any.(rune); ok {
+// Rune converts `val` to rune.
+func Rune(val interface{}) rune {
+	if v, ok := val.(rune); ok {
 		return v
 	}
-	return Int32(any)
+	return Int32(val)
 }
 
-// Runes converts `any` to []rune.
-func Runes(any interface{}) []rune {
-	if v, ok := any.([]rune); ok {
+// Runes converts `val` to []rune.
+func Runes(val interface{}) []rune {
+	if v, ok := val.([]rune); ok {
 		return v
 	}
-	return []rune(String(any))
+	return []rune(String(val))
 }
 
-// String converts `any` to string.
+// String converts `val` to string.
 // It's most commonly used converting function.
-func String(any interface{}) string {
-	if any == nil {
+func String(val interface{}) string {
+	if val == nil {
 		return ""
 	}
-	switch value := any.(type) {
+	switch value := val.(type) {
 	case int:
 		return strconv.Itoa(value)
 	case int8:
@@ -215,13 +215,13 @@ func String(any interface{}) string {
 	}
 }
 
-// Bool converts `any` to bool.
-// It returns false if `any` is: false, "", 0, "false", "off", "no", empty slice/map.
-func Bool(any interface{}) bool {
-	if any == nil {
+// Bool converts `val` to bool.
+// It returns false if `val` is: false, "", 0, "false", "off", "no", empty slice/map.
+func Bool(val interface{}) bool {
+	if val == nil {
 		return false
 	}
-	switch value := any.(type) {
+	switch value := val.(type) {
 	case bool:
 		return value
 	case []byte:
@@ -238,7 +238,7 @@ func Bool(any interface{}) bool {
 		if f, ok := value.(iBool); ok {
 			return f.Bool()
 		}
-		rv := reflect.ValueOf(any)
+		rv := reflect.ValueOf(val)
 		switch rv.Kind() {
 		case reflect.Ptr:
 			return !rv.IsNil()
@@ -251,7 +251,7 @@ func Bool(any interface{}) bool {
 		case reflect.Struct:
 			return true
 		default:
-			s := strings.ToLower(String(any))
+			s := strings.ToLower(String(val))
 			if _, ok := emptyStringMap[s]; ok {
 				return false
 			}
@@ -260,9 +260,9 @@ func Bool(any interface{}) bool {
 	}
 }
 
-// checkJsonAndUnmarshalUseNumber checks if given `any` is JSON formatted string value and does converting using `json.UnmarshalUseNumber`.
-func checkJsonAndUnmarshalUseNumber(any interface{}, target interface{}) bool {
-	switch r := any.(type) {
+// checkJsonAndUnmarshalUseNumber checks if given `val` is JSON formatted string value and does converting using `json.UnmarshalUseNumber`.
+func checkJsonAndUnmarshalUseNumber(val interface{}, target interface{}) bool {
+	switch r := val.(type) {
 	case []byte:
 		if json.Valid(r) {
 			if err := json.UnmarshalUseNumber(r, &target); err != nil {

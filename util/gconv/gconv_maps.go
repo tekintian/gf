@@ -9,14 +9,14 @@ package gconv
 import "github.com/gogf/gf/v2/internal/json"
 
 // SliceMap is alias of Maps.
-func SliceMap(any interface{}, option ...MapOption) []map[string]interface{} {
-	return Maps(any, option...)
+func SliceMap(val interface{}, option ...MapOption) []map[string]interface{} {
+	return Maps(val, option...)
 }
 
 // SliceMapDeep is alias of MapsDeep.
 // Deprecated: used SliceMap instead.
-func SliceMapDeep(any interface{}) []map[string]interface{} {
-	return MapsDeep(any)
+func SliceMapDeep(val interface{}) []map[string]interface{} {
+	return MapsDeep(val)
 }
 
 // Maps converts `value` to []map[string]interface{}.

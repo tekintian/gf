@@ -16,30 +16,30 @@ import (
 )
 
 // SliceUint is alias of Uints.
-func SliceUint(any interface{}) []uint {
-	return Uints(any)
+func SliceUint(val interface{}) []uint {
+	return Uints(val)
 }
 
 // SliceUint32 is alias of Uint32s.
-func SliceUint32(any interface{}) []uint32 {
-	return Uint32s(any)
+func SliceUint32(val interface{}) []uint32 {
+	return Uint32s(val)
 }
 
 // SliceUint64 is alias of Uint64s.
-func SliceUint64(any interface{}) []uint64 {
-	return Uint64s(any)
+func SliceUint64(val interface{}) []uint64 {
+	return Uint64s(val)
 }
 
-// Uints converts `any` to []uint.
-func Uints(any interface{}) []uint {
-	if any == nil {
+// Uints converts `val` to []uint.
+func Uints(val interface{}) []uint {
+	if val == nil {
 		return nil
 	}
 
 	var (
 		array []uint = nil
 	)
-	switch value := any.(type) {
+	switch value := val.(type) {
 	case string:
 		value = strings.TrimSpace(value)
 		if value == "" {
@@ -136,18 +136,18 @@ func Uints(any interface{}) []uint {
 	}
 
 	// Default handler.
-	if v, ok := any.(iUints); ok {
+	if v, ok := val.(iUints); ok {
 		return v.Uints()
 	}
-	if v, ok := any.(iInterfaces); ok {
+	if v, ok := val.(iInterfaces); ok {
 		return Uints(v.Interfaces())
 	}
 	// JSON format string value converting.
-	if checkJsonAndUnmarshalUseNumber(any, &array) {
+	if checkJsonAndUnmarshalUseNumber(val, &array) {
 		return array
 	}
 	// Not a common type, it then uses reflection for conversion.
-	originValueAndKind := reflection.OriginValueAndKind(any)
+	originValueAndKind := reflection.OriginValueAndKind(val)
 	switch originValueAndKind.OriginKind {
 	case reflect.Slice, reflect.Array:
 		var (
@@ -163,19 +163,19 @@ func Uints(any interface{}) []uint {
 		if originValueAndKind.OriginValue.IsZero() {
 			return []uint{}
 		}
-		return []uint{Uint(any)}
+		return []uint{Uint(val)}
 	}
 }
 
-// Uint32s converts `any` to []uint32.
-func Uint32s(any interface{}) []uint32 {
-	if any == nil {
+// Uint32s converts `val` to []uint32.
+func Uint32s(val interface{}) []uint32 {
+	if val == nil {
 		return nil
 	}
 	var (
 		array []uint32 = nil
 	)
-	switch value := any.(type) {
+	switch value := val.(type) {
 	case string:
 		value = strings.TrimSpace(value)
 		if value == "" {
@@ -270,18 +270,18 @@ func Uint32s(any interface{}) []uint32 {
 	}
 
 	// Default handler.
-	if v, ok := any.(iUints); ok {
+	if v, ok := val.(iUints); ok {
 		return Uint32s(v.Uints())
 	}
-	if v, ok := any.(iInterfaces); ok {
+	if v, ok := val.(iInterfaces); ok {
 		return Uint32s(v.Interfaces())
 	}
 	// JSON format string value converting.
-	if checkJsonAndUnmarshalUseNumber(any, &array) {
+	if checkJsonAndUnmarshalUseNumber(val, &array) {
 		return array
 	}
 	// Not a common type, it then uses reflection for conversion.
-	originValueAndKind := reflection.OriginValueAndKind(any)
+	originValueAndKind := reflection.OriginValueAndKind(val)
 	switch originValueAndKind.OriginKind {
 	case reflect.Slice, reflect.Array:
 		var (
@@ -297,19 +297,19 @@ func Uint32s(any interface{}) []uint32 {
 		if originValueAndKind.OriginValue.IsZero() {
 			return []uint32{}
 		}
-		return []uint32{Uint32(any)}
+		return []uint32{Uint32(val)}
 	}
 }
 
-// Uint64s converts `any` to []uint64.
-func Uint64s(any interface{}) []uint64 {
-	if any == nil {
+// Uint64s converts `val` to []uint64.
+func Uint64s(val interface{}) []uint64 {
+	if val == nil {
 		return nil
 	}
 	var (
 		array []uint64 = nil
 	)
-	switch value := any.(type) {
+	switch value := val.(type) {
 	case string:
 		value = strings.TrimSpace(value)
 		if value == "" {
@@ -404,18 +404,18 @@ func Uint64s(any interface{}) []uint64 {
 		return array
 	}
 	// Default handler.
-	if v, ok := any.(iUints); ok {
+	if v, ok := val.(iUints); ok {
 		return Uint64s(v.Uints())
 	}
-	if v, ok := any.(iInterfaces); ok {
+	if v, ok := val.(iInterfaces); ok {
 		return Uint64s(v.Interfaces())
 	}
 	// JSON format string value converting.
-	if checkJsonAndUnmarshalUseNumber(any, &array) {
+	if checkJsonAndUnmarshalUseNumber(val, &array) {
 		return array
 	}
 	// Not a common type, it then uses reflection for conversion.
-	originValueAndKind := reflection.OriginValueAndKind(any)
+	originValueAndKind := reflection.OriginValueAndKind(val)
 	switch originValueAndKind.OriginKind {
 	case reflect.Slice, reflect.Array:
 		var (
@@ -431,6 +431,6 @@ func Uint64s(any interface{}) []uint64 {
 		if originValueAndKind.OriginValue.IsZero() {
 			return []uint64{}
 		}
-		return []uint64{Uint64(any)}
+		return []uint64{Uint64(val)}
 	}
 }

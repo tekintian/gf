@@ -13,56 +13,56 @@ import (
 	"github.com/gogf/gf/v2/encoding/gbinary"
 )
 
-// Int converts `any` to int.
-func Int(any interface{}) int {
-	if any == nil {
+// Int converts `val` to int.
+func Int(val interface{}) int {
+	if val == nil {
 		return 0
 	}
-	if v, ok := any.(int); ok {
+	if v, ok := val.(int); ok {
 		return v
 	}
-	return int(Int64(any))
+	return int(Int64(val))
 }
 
-// Int8 converts `any` to int8.
-func Int8(any interface{}) int8 {
-	if any == nil {
+// Int8 converts `val` to int8.
+func Int8(val interface{}) int8 {
+	if val == nil {
 		return 0
 	}
-	if v, ok := any.(int8); ok {
+	if v, ok := val.(int8); ok {
 		return v
 	}
-	return int8(Int64(any))
+	return int8(Int64(val))
 }
 
-// Int16 converts `any` to int16.
-func Int16(any interface{}) int16 {
-	if any == nil {
+// Int16 converts `val` to int16.
+func Int16(val interface{}) int16 {
+	if val == nil {
 		return 0
 	}
-	if v, ok := any.(int16); ok {
+	if v, ok := val.(int16); ok {
 		return v
 	}
-	return int16(Int64(any))
+	return int16(Int64(val))
 }
 
-// Int32 converts `any` to int32.
-func Int32(any interface{}) int32 {
-	if any == nil {
+// Int32 converts `val` to int32.
+func Int32(val interface{}) int32 {
+	if val == nil {
 		return 0
 	}
-	if v, ok := any.(int32); ok {
+	if v, ok := val.(int32); ok {
 		return v
 	}
-	return int32(Int64(any))
+	return int32(Int64(val))
 }
 
-// Int64 converts `any` to int64.
-func Int64(any interface{}) int64 {
-	if any == nil {
+// Int64 converts `val` to int64.
+func Int64(val interface{}) int64 {
+	if val == nil {
 		return 0
 	}
-	switch value := any.(type) {
+	switch value := val.(type) {
 	case int:
 		return int64(value)
 	case int8:

@@ -13,61 +13,61 @@ import (
 	"github.com/gogf/gf/v2/os/gtime"
 )
 
-// Time converts `any` to time.Time.
-func Time(any interface{}, format ...string) time.Time {
+// Time converts `val` to time.Time.
+func Time(val interface{}, format ...string) time.Time {
 	// It's already this type.
 	if len(format) == 0 {
-		if v, ok := any.(time.Time); ok {
+		if v, ok := val.(time.Time); ok {
 			return v
 		}
 	}
-	if t := GTime(any, format...); t != nil {
+	if t := GTime(val, format...); t != nil {
 		return t.Time
 	}
 	return time.Time{}
 }
 
-// Duration converts `any` to time.Duration.
-// If `any` is string, then it uses time.ParseDuration to convert it.
-// If `any` is numeric, then it converts `any` as nanoseconds.
-func Duration(any interface{}) time.Duration {
+// Duration converts `val` to time.Duration.
+// If `val` is string, then it uses time.ParseDuration to convert it.
+// If `val` is numeric, then it converts `val` as nanoseconds.
+func Duration(val interface{}) time.Duration {
 	// It's already this type.
-	if v, ok := any.(time.Duration); ok {
+	if v, ok := val.(time.Duration); ok {
 		return v
 	}
-	s := String(any)
+	s := String(val)
 	if !utils.IsNumeric(s) {
 		d, _ := gtime.ParseDuration(s)
 		return d
 	}
-	return time.Duration(Int64(any))
+	return time.Duration(Int64(val))
 }
 
-// GTime converts `any` to *gtime.Time.
-// The parameter `format` can be used to specify the format of `any`.
+// GTime converts `val` to *gtime.Time.
+// The parameter `format` can be used to specify the format of `val`.
 // It returns the converted value that matched the first format of the formats slice.
-// If no `format` given, it converts `any` using gtime.NewFromTimeStamp if `any` is numeric,
-// or using gtime.StrToTime if `any` is string.
-func GTime(any interface{}, format ...string) *gtime.Time {
-	if any == nil {
+// If no `format` given, it converts `val` using gtime.NewFromTimeStamp if `val` is numeric,
+// or using gtime.StrToTime if `val` is string.
+func GTime(val interface{}, format ...string) *gtime.Time {
+	if val == nil {
 		return nil
 	}
-	if v, ok := any.(iGTime); ok {
+	if v, ok := val.(iGTime); ok {
 		return v.GTime(format...)
 	}
 	// It's already this type.
 	if len(format) == 0 {
-		if v, ok := any.(*gtime.Time); ok {
+		if v, ok := val.(*gtime.Time); ok {
 			return v
 		}
-		if t, ok := any.(time.Time); ok {
+		if t, ok := val.(time.Time); ok {
 			return gtime.New(t)
 		}
-		if t, ok := any.(*time.Time); ok {
+		if t, ok := val.(*time.Time); ok {
 			return gtime.New(t)
 		}
 	}
-	s := String(any)
+	s := String(val)
 	if len(s) == 0 {
 		return gtime.New()
 	}
