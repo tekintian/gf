@@ -1,6 +1,6 @@
 module github.com/gogf/gf/contrib/sdk/httpclient/v2
 
-go 1.18
+go 1.21
 
 require github.com/gogf/gf/v2 v2.7.1
 

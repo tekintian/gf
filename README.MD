@@ -4,13 +4,15 @@
 
 # 本仓库使用方法
 
+注意go版本必须大于 1.21
+
 ~~~sh
 # 将本项目下载到和你的项目评级的文件夹下
 git clone https://github.com/tekintian/gofw.git
 
-# 进入你的项目根目录 
-cd yourproject 
-# 
+# 进入你的项目根目录
+cd yourproject
+#
 # 然后执行下面的命令将gogf/gf的模块引用指向你下载的本仓库目录，相对路径即可
 # 主模块绑定
 go mod edit -replace=github.com/gogf/gf/v2=../gofw
@@ -71,7 +73,7 @@ go install .
 # Limitation
 
 ```
-golang version >= 1.18
+golang version >= 1.21
 ```
 
 # Documentation
