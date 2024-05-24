@@ -31,11 +31,16 @@ var (
 // It is concurrent-safe for multiple goroutines.
 func getRegexp(pattern string) (regex *regexp.Regexp, err error) {
 	// Retrieve the regular expression object using reading lock.
-	regexMu.RLock()
-	regex = regexMap[pattern]
-	regexMu.RUnlock()
-	if regex != nil {
-		return
+	// regexMu.RLock()
+	// regex = regexMap[pattern]
+	// regexMu.RUnlock()
+	// if regex != nil {
+	// 	return
+	// }
+	
+	// no read lock, if the key in the map, just return.
+	if regex, ok := regexMap[pattern]; ok {
+		return regex, nil
 	}
 	// If it does not exist in the cache,
 	// it compiles the pattern and creates one.
