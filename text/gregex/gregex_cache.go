@@ -37,9 +37,9 @@ func getRegexp(pattern string) (regex *regexp.Regexp, err error) {
 	// if regex != nil {
 	// 	return
 	// }
-	
-	// no read lock, if the key in the map, just return.
-	if regex, ok := regexMap[pattern]; ok {
+
+	regex, ok := regexMap[pattern]
+	if ok {
 		return regex, nil
 	}
 	// If it does not exist in the cache,
